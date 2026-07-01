@@ -50,6 +50,23 @@ HEADERS = [
     "message_draft"
 ]
 
+LEAD_STATUS_OPTIONS = [
+    "Not Contacted",
+    "Potential Client",
+    "Messaged",
+    "Replied",
+    "Beat Sent",
+    "Follow-up 1",
+    "Follow-up 2",
+    "Closed"
+]
+
+SALE_STATUS_OPTIONS = [
+    "Open",
+    "Closed Won",
+    "Closed Lost"
+]
+
 
 # =========================
 # GOOGLE SHEETS SETUP
@@ -309,6 +326,19 @@ def lead_unique_key(row):
 # =========================
 # GOOGLE SHEETS STYLING HELPERS
 # =========================
+
+def add_dropdown_validation(worksheet, column_letter, options, start_row=2, end_row=1000):
+    """
+    Adds a dropdown validation list to a column.
+    Example: add_dropdown_validation(master_ws, "H", LEAD_STATUS_OPTIONS)
+    """
+    worksheet.add_validation(
+        range_name=f"{column_letter}{start_row}:{column_letter}{end_row}",
+        condition_type="ONE_OF_LIST",
+        values=options,
+        strict=True,
+        showCustomUi=True
+    )
 
 def hex_to_rgb(hex_color):
     hex_color = hex_color.replace("#", "")
@@ -755,6 +785,23 @@ def style_master_leads(master_ws):
 
     apply_basic_filter(master_ws)
 
+    add_dropdown_validation(
+        master_ws,
+        "H",
+        LEAD_STATUS_OPTIONS,
+        start_row=2,
+        end_row=5000
+    )
+
+    add_dropdown_validation(
+        master_ws,
+        "M",
+        SALE_STATUS_OPTIONS,
+        start_row=2,
+        end_row=5000
+    )
+
+
 
 def style_run_tab(run_ws):
     spreadsheet = run_ws.spreadsheet
@@ -828,6 +875,22 @@ def style_run_tab(run_ws):
     })
 
     apply_basic_filter(run_ws)
+
+    add_dropdown_validation(
+        run_ws,
+        "H",
+        LEAD_STATUS_OPTIONS,
+        start_row=2,
+        end_row=1000
+    )
+
+    add_dropdown_validation(
+        run_ws,
+        "M",
+        SALE_STATUS_OPTIONS,
+        start_row=2,
+        end_row=1000
+    )
 
 
 # =========================
