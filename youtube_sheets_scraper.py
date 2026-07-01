@@ -13,7 +13,7 @@ import os
 
 YOUTUBE_API_KEY = os.environ["YOUTUBE_API_KEY"]
 
-GOOGLE_SHEET_NAME = os.environ.get("GOOGLE_SHEET_NAME", "Beat-Sales-CRM")
+GOOGLE_SHEET_NAME = os.environ.get("GOOGLE_SHEET_NAME", "YouTube-Beat-Sales-CRM")
 SERVICE_ACCOUNT_FILE = "service_account.json"
 
 DEFAULT_SEARCH_TERMS = [
