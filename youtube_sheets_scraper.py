@@ -608,14 +608,14 @@ def update_dashboard(dashboard_ws, master_ws, run_id, leads_added):
     ))
 
     requests.append(format_range(
-        sheet_id, 18, 22, 0, 3,
+        sheet_id, 18, 23, 0, 3,
         bg="#F9FAFB",
         fg="#111827",
         font_size=10
     ))
 
     requests.append(format_range(
-        sheet_id, 18, 22, 4, 8,
+        sheet_id, 18, 23, 4, 8,
         bg="#F9FAFB",
         fg="#111827",
         font_size=10
