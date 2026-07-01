@@ -11,7 +11,7 @@ import os
 # CONFIG
 # =========================
 
-YOUTUBE_API_KEY = os.environ["AIzaSyBbO6vvXG7RH8Mu3RaSzX-xYYHi1FkaHrw"]
+YOUTUBE_API_KEY = os.environ["YOUTUBE_API_KEY"]
 
 GOOGLE_SHEET_NAME = os.environ.get("GOOGLE_SHEET_NAME", "Beat-Sales-CRM")
 SERVICE_ACCOUNT_FILE = "service_account.json"
