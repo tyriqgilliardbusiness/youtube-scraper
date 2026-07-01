@@ -495,10 +495,10 @@ def update_dashboard(dashboard_ws, master_ws, run_id, leads_added):
     ]
 
     dashboard_ws.update(
-        range_name="A1:H22",
-        values=dashboard_data,
-        value_input_option="USER_ENTERED"
-    )
+    range_name="A1:H23",
+    values=dashboard_data,
+    value_input_option="USER_ENTERED"
+)
 
     sheet_id = dashboard_ws.id
     requests = []
