@@ -623,8 +623,8 @@ def update_dashboard(dashboard_ws, master_ws, run_id, leads_added):
 
     requests.append(set_borders(sheet_id, 7, 15, 0, 3))
     requests.append(set_borders(sheet_id, 7, 15, 4, 6))
-    requests.append(set_borders(sheet_id, 17, 22, 0, 3))
-    requests.append(set_borders(sheet_id, 17, 22, 4, 8))
+    requests.append(set_borders(sheet_id, 17, 23, 0, 3))
+    requests.append(set_borders(sheet_id, 17, 23, 4, 8))
 
     requests.append(set_column_width(sheet_id, 0, 1, 145))
     requests.append(set_column_width(sheet_id, 1, 2, 130))
@@ -661,14 +661,14 @@ def update_dashboard(dashboard_ws, master_ws, run_id, leads_added):
         }
     })
 
-    dashboard_ws.format("B18:B20", {
+    dashboard_ws.format("B19:B21", {
         "numberFormat": {
             "type": "PERCENT",
             "pattern": "0.0%"
         }
     })
 
-    dashboard_ws.format("B21", {
+    dashboard_ws.format("B22", {
         "numberFormat": {
             "type": "CURRENCY",
             "pattern": "$#,##0"
