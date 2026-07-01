@@ -461,40 +461,42 @@ def update_dashboard(dashboard_ws, master_ws, run_id, leads_added):
         ["YouTube buyer-intent lead tracker for $50 beat leases", "", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", ""],
 
-        ["Total Leads", "Not Contacted", "Messaged", "Replied", "Beat Sent", "Closed Won", "Revenue", "Last Run"],
+        ["Total Leads", "Not Contacted", "Potential Client", "Messaged", "Replied", "Beat Sent", "Closed Won", "Revenue"],
         [
             '=COUNTA(\'Master Leads\'!C2:C)',
             '=COUNTIF(\'Master Leads\'!H:H,"Not Contacted")',
+            '=COUNTIF(\'Master Leads\'!H:H,"Potential Client")',
             '=COUNTIF(\'Master Leads\'!H:H,"Messaged")',
             '=COUNTIF(\'Master Leads\'!H:H,"Replied")',
             '=COUNTIF(\'Master Leads\'!H:H,"Beat Sent")',
             '=COUNTIF(\'Master Leads\'!M:M,"Closed Won")',
-            '=SUM(\'Master Leads\'!N:N)',
-            run_id
+            '=SUM(\'Master Leads\'!N:N)'
         ],
         ["", "", "", "", "", "", "", ""],
 
         ["Pipeline Overview", "", "", "", "", "", "", ""],
         ["Stage", "Count", "Action Needed", "", "Run Summary", "Value", "", ""],
-        ["Not Contacted", '=COUNTIF(\'Master Leads\'!H:H,"Not Contacted")', "Find profile and send first DM", "", "Last Run", run_id, "", ""],
-        ["Messaged", '=COUNTIF(\'Master Leads\'!H:H,"Messaged")', "Wait for reply or follow up", "", "Leads Added", leads_added, "", ""],
-        ["Replied", '=COUNTIF(\'Master Leads\'!H:H,"Replied")', "Qualify and send best beat", "", "Target Leads Per Run", '=Settings!B4', "", ""],
-        ["Beat Sent", '=COUNTIF(\'Master Leads\'!H:H,"Beat Sent")', "Follow up within 24 hours", "", "Buyer Keywords", '=Settings!B3', "", ""],
-        ["Closed Won", '=COUNTIF(\'Master Leads\'!M:M,"Closed Won")', "Collect song/repost/testimonial", "", "Search Terms", '=Settings!B2', "", ""],
+        ["Not Contacted", '=COUNTIF(\'Master Leads\'!H:H,"Not Contacted")', "Review lead and confirm they are an artist", "", "Last Run", run_id, "", ""],
+        ["Potential Client", '=COUNTIF(\'Master Leads\'!H:H,"Potential Client")', "Find profile link and prepare/send first DM", "", "Leads Added", leads_added, "", ""],
+        ["Messaged", '=COUNTIF(\'Master Leads\'!H:H,"Messaged")', "Wait for reply or follow up", "", "Target Leads Per Run", '=Settings!B4', "", ""],
+        ["Replied", '=COUNTIF(\'Master Leads\'!H:H,"Replied")', "Qualify and send best beat", "", "Buyer Keywords", '=Settings!B3', "", ""],
+        ["Beat Sent", '=COUNTIF(\'Master Leads\'!H:H,"Beat Sent")', "Follow up within 24 hours", "", "Search Terms", '=Settings!B2', "", ""],
+        ["Closed Won", '=COUNTIF(\'Master Leads\'!M:M,"Closed Won")', "Collect song/repost/testimonial", "", "", "", "", ""],
         ["Closed Lost", '=COUNTIF(\'Master Leads\'!M:M,"Closed Lost")', "Move on or revisit later", "", "", "", "", ""],
         ["", "", "", "", "", "", "", ""],
 
         ["Sales Performance", "", "", "", "", "", "", ""],
         ["Metric", "Value", "Goal", "", "Quick Next Steps", "", "", ""],
-        ["Reply Rate", '=IFERROR(COUNTIF(\'Master Leads\'!H:H,"Replied")/COUNTIF(\'Master Leads\'!H:H,"Messaged"),0)', "10%+", "", "1. Sort Master Leads by newest/highest intent", "", "", ""],
-        ["Close Rate", '=IFERROR(COUNTIF(\'Master Leads\'!M:M,"Closed Won")/COUNTA(\'Master Leads\'!C2:C),0)', "2%+", "", "2. Message 25 leads manually today", "", "", ""],
-        ["Average Sale", '=IFERROR(SUM(\'Master Leads\'!N:N)/COUNTIF(\'Master Leads\'!M:M,"Closed Won"),0)', "$50", "", "3. Send one best-fit beat after they reply", "", "", ""],
-        ["Sales Needed for $500", '=IFERROR(ROUNDUP((500-SUM(\'Master Leads\'!N:N))/50,0),10)', "10 sales", "", "4. Follow up after 24 hours", "", "", ""],
+        ["Review Rate", '=IFERROR(COUNTIF(\'Master Leads\'!H:H,"Potential Client")/COUNTA(\'Master Leads\'!C2:C),0)', "50%+", "", "1. Review Not Contacted leads first", "", "", ""],
+        ["Reply Rate", '=IFERROR(COUNTIF(\'Master Leads\'!H:H,"Replied")/COUNTIF(\'Master Leads\'!H:H,"Messaged"),0)', "10%+", "", "2. Move good artists to Potential Client", "", "", ""],
+        ["Close Rate", '=IFERROR(COUNTIF(\'Master Leads\'!M:M,"Closed Won")/COUNTA(\'Master Leads\'!C2:C),0)', "2%+", "", "3. Message 25 Potential Clients today", "", "", ""],
+        ["Average Sale", '=IFERROR(SUM(\'Master Leads\'!N:N)/COUNTIF(\'Master Leads\'!M:M,"Closed Won"),0)', "$50", "", "4. Follow up after 24 hours", "", "", ""],
+        ["Sales Needed for $500", '=IFERROR(ROUNDUP((500-SUM(\'Master Leads\'!N:N))/50,0),10)', "10 sales", "", "5. Send one best-fit beat after they reply", "", "", ""],
     ]
 
     dashboard_ws.update(
-        "A1:H21",
-        dashboard_data,
+        range_name="A1:H22",
+        values=dashboard_data,
         value_input_option="USER_ENTERED"
     )
 
@@ -504,7 +506,7 @@ def update_dashboard(dashboard_ws, master_ws, run_id, leads_added):
     requests.append(merge_cells(sheet_id, 0, 1, 0, 8))
     requests.append(merge_cells(sheet_id, 1, 2, 0, 8))
     requests.append(merge_cells(sheet_id, 6, 7, 0, 8))
-    requests.append(merge_cells(sheet_id, 15, 16, 0, 8))
+    requests.append(merge_cells(sheet_id, 16, 17, 0, 8))
 
     requests.append(format_range(
         sheet_id, 0, 1, 0, 8,
@@ -552,7 +554,7 @@ def update_dashboard(dashboard_ws, master_ws, run_id, leads_added):
     ))
 
     requests.append(format_range(
-        sheet_id, 15, 16, 0, 8,
+        sheet_id, 16, 17, 0, 8,
         bg="#111827",
         fg="#FFFFFF",
         bold=True,
@@ -576,7 +578,7 @@ def update_dashboard(dashboard_ws, master_ws, run_id, leads_added):
     ))
 
     requests.append(format_range(
-        sheet_id, 16, 17, 0, 3,
+        sheet_id, 17, 18, 0, 3,
         bg="#374151",
         fg="#FFFFFF",
         bold=True,
@@ -584,7 +586,7 @@ def update_dashboard(dashboard_ws, master_ws, run_id, leads_added):
     ))
 
     requests.append(format_range(
-        sheet_id, 16, 17, 4, 8,
+        sheet_id, 17, 18, 4, 8,
         bg="#374151",
         fg="#FFFFFF",
         bold=True,
@@ -592,40 +594,40 @@ def update_dashboard(dashboard_ws, master_ws, run_id, leads_added):
     ))
 
     requests.append(format_range(
-        sheet_id, 8, 14, 0, 3,
+        sheet_id, 8, 15, 0, 3,
         bg="#F9FAFB",
         fg="#111827",
         font_size=10
     ))
 
     requests.append(format_range(
-        sheet_id, 8, 14, 4, 6,
+        sheet_id, 8, 15, 4, 6,
         bg="#F9FAFB",
         fg="#111827",
         font_size=10
     ))
 
     requests.append(format_range(
-        sheet_id, 17, 21, 0, 3,
+        sheet_id, 18, 22, 0, 3,
         bg="#F9FAFB",
         fg="#111827",
         font_size=10
     ))
 
     requests.append(format_range(
-        sheet_id, 17, 21, 4, 8,
+        sheet_id, 18, 22, 4, 8,
         bg="#F9FAFB",
         fg="#111827",
         font_size=10
     ))
 
-    requests.append(set_borders(sheet_id, 7, 14, 0, 3))
-    requests.append(set_borders(sheet_id, 7, 14, 4, 6))
-    requests.append(set_borders(sheet_id, 16, 21, 0, 3))
-    requests.append(set_borders(sheet_id, 16, 21, 4, 8))
+    requests.append(set_borders(sheet_id, 7, 15, 0, 3))
+    requests.append(set_borders(sheet_id, 7, 15, 4, 6))
+    requests.append(set_borders(sheet_id, 17, 22, 0, 3))
+    requests.append(set_borders(sheet_id, 17, 22, 4, 8))
 
     requests.append(set_column_width(sheet_id, 0, 1, 145))
-    requests.append(set_column_width(sheet_id, 1, 2, 115))
+    requests.append(set_column_width(sheet_id, 1, 2, 130))
     requests.append(set_column_width(sheet_id, 2, 3, 260))
     requests.append(set_column_width(sheet_id, 3, 4, 35))
     requests.append(set_column_width(sheet_id, 4, 5, 160))
@@ -636,7 +638,7 @@ def update_dashboard(dashboard_ws, master_ws, run_id, leads_added):
     requests.append(set_row_height(sheet_id, 1, 2, 28))
     requests.append(set_row_height(sheet_id, 3, 5, 42))
     requests.append(set_row_height(sheet_id, 6, 7, 32))
-    requests.append(set_row_height(sheet_id, 15, 16, 32))
+    requests.append(set_row_height(sheet_id, 16, 17, 32))
 
     requests.append({
         "updateSheetProperties": {
@@ -652,21 +654,21 @@ def update_dashboard(dashboard_ws, master_ws, run_id, leads_added):
 
     spreadsheet.batch_update({"requests": requests})
 
-    dashboard_ws.format("G5", {
+    dashboard_ws.format("H5", {
         "numberFormat": {
             "type": "CURRENCY",
             "pattern": "$#,##0"
         }
     })
 
-    dashboard_ws.format("B18:B19", {
+    dashboard_ws.format("B18:B20", {
         "numberFormat": {
             "type": "PERCENT",
             "pattern": "0.0%"
         }
     })
 
-    dashboard_ws.format("B20", {
+    dashboard_ws.format("B21", {
         "numberFormat": {
             "type": "CURRENCY",
             "pattern": "$#,##0"
